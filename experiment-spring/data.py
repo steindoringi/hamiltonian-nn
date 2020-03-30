@@ -37,6 +37,10 @@ def get_trajectory(t_span=[0,3], timescale=10, radius=None, y0=None, noise_std=0
     # add noise
     q += np.random.randn(*q.shape)*noise_std
     p += np.random.randn(*p.shape)*noise_std
+
+    dqdt += np.random.randn(*dqdt.shape)*noise_std
+    dpdt += np.random.randn(*dpdt.shape)*noise_std
+
     return q, p, dqdt, dpdt, t_eval
 
 def get_dataset(seed=0, samples=50, test_split=0.5, **kwargs):

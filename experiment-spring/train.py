@@ -18,9 +18,10 @@ def get_args():
     parser = argparse.ArgumentParser(description=None)
     parser.add_argument('--input_dim', default=2, type=int, help='dimensionality of input tensor')
     parser.add_argument('--hidden_dim', default=200, type=int, help='hidden dimension of mlp')
+    parser.add_argument('--num_data', default=150, type=int, help='number of data for training')
     parser.add_argument('--learn_rate', default=1e-3, type=float, help='learning rate')
     parser.add_argument('--nonlinearity', default='tanh', type=str, help='neural net nonlinearity')
-    parser.add_argument('--total_steps', default=2000, type=int, help='number of gradient steps')
+    parser.add_argument('--total_steps', default=5000, type=int, help='number of gradient steps')
     parser.add_argument('--print_every', default=200, type=int, help='number of gradient steps between prints')
     parser.add_argument('--name', default='spring', type=str, help='only one option right now')
     parser.add_argument('--baseline', dest='baseline', action='store_true', help='run baseline or experiment?')
@@ -49,9 +50,9 @@ def train(args):
 
   # arrange data
   data = get_dataset(seed=args.seed)
-  x = torch.tensor( data['x'], requires_grad=True, dtype=torch.float32)
+  x = torch.tensor( data['x'][:args.num_data], requires_grad=True, dtype=torch.float32)
   test_x = torch.tensor( data['test_x'], requires_grad=True, dtype=torch.float32)
-  dxdt = torch.Tensor(data['dx'])
+  dxdt = torch.Tensor(data['dx'][:args.num_data])
   test_dxdt = torch.Tensor(data['test_dx'])
 
   # vanilla train loop
